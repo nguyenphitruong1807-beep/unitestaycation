@@ -3486,3 +3486,263 @@ body {
     padding: 0 6px !important;
   }
 }
+
+
+/* ===== V2.6.4 PATCH: phone room detail + intelligent Room Reel gestures ===== */
+
+/* Reel: vertical swipe should scroll page; horizontal swipe is handled by JS */
+.reel-window {
+  touch-action: pan-y !important;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.reel-card {
+  touch-action: pan-y !important;
+}
+
+/* Bulletproof detail page stacking on phones and tablets */
+@media (max-width: 1024px), (pointer: coarse) and (max-width: 1180px) {
+  body[data-page="room"] {
+    overflow-x: hidden !important;
+  }
+
+  body[data-page="room"] .room-detail-page {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    padding: calc(96px + env(safe-area-inset-top)) 14px calc(92px + env(safe-area-inset-bottom)) !important;
+    overflow-x: hidden !important;
+  }
+
+  body[data-page="room"] .detail-top {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  body[data-page="room"] .detail-cover,
+  body[data-page="room"] .detail-info,
+  body[data-page="room"] .detail-body,
+  body[data-page="room"] .gallery-panel,
+  body[data-page="room"] .detail-note {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  body[data-page="room"] .detail-cover {
+    order: 1 !important;
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: 4 / 5 !important;
+    border-radius: 28px !important;
+    overflow: hidden !important;
+    clip-path: inset(0 round 28px) !important;
+  }
+
+  body[data-page="room"] .detail-cover img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  body[data-page="room"] .detail-info {
+    order: 2 !important;
+    display: block !important;
+    min-height: 0 !important;
+    padding: 24px 18px !important;
+    border-radius: 28px !important;
+  }
+
+  body[data-page="room"] .detail-info .eyebrow {
+    margin-bottom: 11px !important;
+    font-size: 10px !important;
+    line-height: 1.45 !important;
+    letter-spacing: 0.14em !important;
+  }
+
+  body[data-page="room"] .detail-info h1 {
+    max-width: 100% !important;
+    margin: 0 !important;
+    font-size: clamp(42px, 12.5vw, 66px) !important;
+    line-height: 0.92 !important;
+    letter-spacing: -0.055em !important;
+    white-space: normal !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+  }
+
+  body[data-page="room"] .detail-desc {
+    max-width: 100% !important;
+    margin-top: 15px !important;
+    font-size: 14px !important;
+    line-height: 1.65 !important;
+  }
+
+  body[data-page="room"] .tag-list {
+    margin-top: 14px !important;
+    gap: 7px !important;
+  }
+
+  body[data-page="room"] .tag {
+    padding: 7px 9px !important;
+    font-size: 11px !important;
+  }
+
+  body[data-page="room"] .detail-price-compact {
+    margin-top: 16px !important;
+  }
+
+  body[data-page="room"] .compact-price-line {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  body[data-page="room"] .compact-price-line span {
+    min-width: 0 !important;
+    padding: 11px 10px !important;
+    border-radius: 16px !important;
+    font-size: 25px !important;
+  }
+
+  body[data-page="room"] .compact-price-line small {
+    font-size: 9px !important;
+    letter-spacing: 0.08em !important;
+  }
+
+  body[data-page="room"] .address-box {
+    margin-top: 14px !important;
+    padding: 14px !important;
+    border-radius: 18px !important;
+  }
+
+  body[data-page="room"] .detail-actions {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+    margin-top: 16px !important;
+  }
+
+  body[data-page="room"] .detail-actions .btn {
+    width: 100% !important;
+  }
+
+  body[data-page="room"] .detail-body {
+    display: block !important;
+    margin-top: 14px !important;
+  }
+
+  body[data-page="room"] .gallery-panel {
+    padding: 18px !important;
+    border-radius: 28px !important;
+  }
+
+  body[data-page="room"] .gallery-heading {
+    display: flex !important;
+    align-items: end !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    margin-bottom: 14px !important;
+  }
+
+  body[data-page="room"] .gallery-heading h2 {
+    font-size: clamp(38px, 11vw, 54px) !important;
+    line-height: 0.9 !important;
+  }
+
+  body[data-page="room"] .gallery-heading span {
+    flex: 0 0 auto !important;
+    font-size: 10px !important;
+  }
+
+  body[data-page="room"] .gallery-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+
+  body[data-page="room"] .gallery-item {
+    width: 100% !important;
+    border-radius: 16px !important;
+    clip-path: inset(0 round 16px) !important;
+    aspect-ratio: 1 / 1 !important;
+  }
+
+  body[data-page="room"] .gallery-item:first-child {
+    grid-column: span 2 !important;
+    grid-row: auto !important;
+    aspect-ratio: 16 / 10 !important;
+  }
+
+  body[data-page="room"] .detail-note {
+    display: none !important;
+  }
+}
+
+/* On mobile browser viewport, ensure header never creates horizontal scroll */
+@media (max-width: 760px) {
+  .site-header {
+    max-width: calc(100vw - 16px) !important;
+    overflow: hidden !important;
+  }
+
+  .brand {
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+  }
+
+  .brand-copy,
+  .brand-copy strong {
+    min-width: 0 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  .brand-copy strong {
+    max-width: 190px !important;
+  }
+
+  .nav-cta {
+    flex: 0 0 auto !important;
+    max-width: 96px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  body[data-page="room"] .floating-book {
+    display: flex !important;
+    width: min(560px, calc(100vw - 24px)) !important;
+  }
+}
+
+@media (max-width: 390px) {
+  body[data-page="room"] .room-detail-page {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
+  body[data-page="room"] .detail-cover {
+    aspect-ratio: 4 / 5.35 !important;
+  }
+
+  body[data-page="room"] .detail-info {
+    padding: 22px 16px !important;
+  }
+
+  body[data-page="room"] .detail-info h1 {
+    font-size: clamp(40px, 12vw, 58px) !important;
+  }
+
+  .brand-copy strong {
+    max-width: 150px !important;
+  }
+}
