@@ -263,9 +263,11 @@ const renderReel = () => {
   let raf;
   let isDown = false;
   let startX = 0;
+  let startY = 0;
   let scrollLeft = 0;
   let isHovered = false;
   let moved = false;
+  let gestureMode = null; // null | "horizontal" | "vertical"
 
   const loopScroll = () => {
     const oneSetWidth = track.scrollWidth / 4;
@@ -274,7 +276,7 @@ const renderReel = () => {
       if (windowEl.scrollLeft <= 0) windowEl.scrollLeft += oneSetWidth;
     }
 
-    if (!isDown && !isHovered) windowEl.scrollLeft += window.innerWidth < 760 ? 0.35 : 0.65;
+    if (!isDown && !isHovered) windowEl.scrollLeft += window.innerWidth < 760 ? 0.28 : 0.65;
     raf = requestAnimationFrame(loopScroll);
   };
 
@@ -283,37 +285,69 @@ const renderReel = () => {
     loopScroll();
   }, 180);
 
-  const start = (clientX) => {
+  const start = (clientX, clientY = 0) => {
     isDown = true;
     moved = false;
+    gestureMode = null;
     startX = clientX;
+    startY = clientY;
     scrollLeft = windowEl.scrollLeft;
     windowEl.classList.add("cursor-grabbing");
   };
 
-  const move = (clientX, event) => {
+  const move = (clientX, clientY = 0, event) => {
     if (!isDown) return;
-    const diff = clientX - startX;
-    if (Math.abs(diff) > 5) moved = true;
-    windowEl.scrollLeft = scrollLeft - diff * 1.18;
+
+    const dx = clientX - startX;
+    const dy = clientY - startY;
+
+    // Touch logic:
+    // - vertical swipe: release so the page scrolls normally
+    // - horizontal swipe: drag the reel
+    if (event?.type === "touchmove" && gestureMode === null) {
+      if (Math.abs(dx) < 7 && Math.abs(dy) < 7) return;
+      gestureMode = Math.abs(dx) > Math.abs(dy) * 1.15 ? "horizontal" : "vertical";
+
+      if (gestureMode === "vertical") {
+        isDown = false;
+        windowEl.classList.remove("cursor-grabbing");
+        return;
+      }
+    }
+
+    if (event?.type === "touchmove" && gestureMode !== "horizontal") return;
+
+    if (Math.abs(dx) > 5) moved = true;
+    windowEl.scrollLeft = scrollLeft - dx * 1.12;
+
     if (event?.cancelable) event.preventDefault();
   };
 
   const end = () => {
     isDown = false;
+    gestureMode = null;
     windowEl.classList.remove("cursor-grabbing");
   };
 
   windowEl.addEventListener("mouseenter", () => isHovered = true);
   windowEl.addEventListener("mouseleave", () => { isHovered = false; end(); });
 
-  windowEl.addEventListener("mousedown", e => start(e.pageX));
-  window.addEventListener("mousemove", e => move(e.pageX, e));
+  windowEl.addEventListener("mousedown", e => start(e.pageX, e.pageY));
+  window.addEventListener("mousemove", e => move(e.pageX, e.pageY, e));
   window.addEventListener("mouseup", end);
 
-  windowEl.addEventListener("touchstart", e => start(e.touches[0].pageX), { passive: true });
-  windowEl.addEventListener("touchmove", e => move(e.touches[0].pageX, e), { passive: false });
-  window.addEventListener("touchend", end);
+  windowEl.addEventListener("touchstart", e => {
+    const touch = e.touches[0];
+    start(touch.clientX, touch.clientY);
+  }, { passive: true });
+
+  windowEl.addEventListener("touchmove", e => {
+    const touch = e.touches[0];
+    move(touch.clientX, touch.clientY, e);
+  }, { passive: false });
+
+  window.addEventListener("touchend", end, { passive: true });
+  window.addEventListener("touchcancel", end, { passive: true });
 
   windowEl.addEventListener("click", e => {
     if (moved) {
