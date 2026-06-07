@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unite Staycation | Private & Boutique Rooms</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-cream': '#FDFBF7',
+                        'brand-red': '#7a0000',
+                        'brand-black': '#111111',
+                        'brand-grey': '#d2c8be',
+                        'brand-brown': '#574944',
+                    },
+                    fontFamily: {
+                        'serif': ['"Playfair Display"', 'serif'],
+                        'sans': ['"Quicksand"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #FDFBF7;
+            color: #574944;
+            -webkit-font-smoothing: antialiased;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
+            overflow-x: hidden;
+        }
+
+        /* --- Scroll Reveal Animations --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+
+        /* --- Header & Nav --- */
+        .glass-nav {
+            background: rgba(253, 251, 247, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(210, 200, 190, 0.2);
+            transition: all 0.5s ease;
+        }
+
+        /* --- Hero Section Ken Burns Effect --- */
+        .hero-bg-container {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            overflow: hidden;
+            z-index: 0;
+        }
+        .hero-bg {
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=2000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            animation: kenBurns 20s ease-out infinite alternate;
+        }
+        @keyframes kenBurns {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        /* --- Scroll Down Indicator --- */
+        .scroll-indicator {
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        /* --- Room Card Hover & Images --- */
+        .room-card {
+            background: #fff;
+            border: 1px solid rgba(210, 200, 190, 0.4);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .room-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px -15px rgba(122, 0, 0, 0.1);
+        }
+        
+        .img-wrapper {
+            position: relative;
+            overflow: hidden;
+            -webkit-mask-image: -webkit-radial-gradient(white, black);
+            transform: translateZ(0); 
+        }
+        .slide { transition: opacity 0.7s ease-in-out; }
+
+        /* --- Dotted Price List --- */
+        .price-row {
+            display: flex;
+            align-items: baseline;
+            margin-bottom: 12px;
+        }
+        .price-label { font-size: 0.95rem; font-weight: 500; }
+        .price-leader {
+            flex-grow: 1;
+            border-bottom: 1px dashed #d2c8be;
+            margin: 0 12px;
+            position: relative;
+            top: -4px;
+            opacity: 0.8;
+        }
+        .price-value { font-size: 1.05rem; font-weight: 600; color: #7a0000; }
+
+        /* --- Buttons --- */
+        .btn-outline {
+            border: 1px solid #7a0000;
+            color: #7a0000;
+            background: transparent;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .btn-outline::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 0; height: 100%;
+            background-color: #7a0000;
+            transition: width 0.4s ease;
+            z-index: -1;
+        }
+        .btn-outline:hover::before { width: 100%; }
+        .btn-outline:hover { color: #FDFBF7; }
+
+        /* --- Amenities Line --- */
+        .amenity-line { border-top: 1px solid rgba(210, 200, 190, 0.5); }
+        .amenity-item { transition: all 0.3s ease; }
+        .amenity-item:hover { background-color: rgba(253, 251, 247, 0.03); padding-left: 10px; }
+
+        /* --- FAQ Accordion --- */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 200px; /* Adjust if content is longer */
+            padding-bottom: 1rem;
+        }
+        .faq-icon { transition: transform 0.3s ease; }
+        .faq-item.active .faq-icon { transform: rotate(45deg); }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <nav class="fixed top-0 inset-x-0 z-50 glass-nav py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="navbar">
+        <a href="#" aria-label="Unite Staycation Logo" class="block h-10 md:h-12">
+            <img src="https://techbytruong.wordpress.com/wp-content/uploads/2026/06/logo-staycation.png" alt="Unite Staycation" class="h-full w-auto object-contain">
+        </a>
+        
+        <div class="hidden lg:flex gap-10 text-xs font-semibold tracking-[0.15em] uppercase text-brand-brown">
+            <a href="#about" class="hover:text-brand-red transition-colors">Philosophy</a>
+            <a href="#vibe" class="hover:text-brand-red transition-colors">The Vibe</a>
+            <a href="#suites" class="hover:text-brand-red transition-colors">Suites</a>
+            <a href="#faq" class="hover:text-brand-red transition-colors">FAQ</a>
+        </div>
+
+        <a href="#suites" class="text-[10px] md:text-xs font-bold uppercase tracking-widest bg-brand-red text-white py-3 px-6 md:px-8 rounded-none hover:bg-brand-black transition-colors duration-300">
+            Book Stay
+        </a>
+    </nav>
+
+    <header class="relative w-full h-[100vh] flex flex-col items-center justify-center pt-20">
+        <div class="hero-bg-container">
+            <div class="hero-bg"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-[#FDFBF7]"></div>
+        </div>
+        
+        <div class="relative z-10 text-center px-6 max-w-5xl mx-auto flex flex-col items-center mt-10">
+            <p class="font-sans text-brand-cream/80 text-xs md:text-sm font-bold uppercase tracking-[0.4em] mb-6 reveal">Est. 2026</p>
+            <h1 class="font-serif text-6xl md:text-8xl lg:text-9xl text-white leading-[1.1] mb-8 drop-shadow-xl reveal reveal-delay-1">
+                Unite <span class="italic text-brand-red font-light">Staycation</span>
+            </h1>
+            <p class="font-sans text-lg md:text-xl text-brand-cream/90 max-w-2xl mx-auto mb-12 leading-relaxed font-light reveal reveal-delay-2">
+                Nơi ranh giới giữa sự ồn ào của phố thị và chốn ẩn náu bình yên được xóa nhòa. Một không gian nghệ thuật dành riêng cho cảm xúc.
+            </p>
+        </div>
+
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 text-brand-cream/60 flex flex-col items-center reveal reveal-delay-3">
+            <span class="text-[10px] uppercase tracking-[0.2em] mb-2">Khám phá</span>
+            <i class="fa-solid fa-arrow-down-long scroll-indicator"></i>
+        </div>
+    </header>
+
+    <section id="about" class="py-24 md:py-32 bg-brand-cream overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-12 items-center">
+            
+            <div class="lg:col-span-5 reveal">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="h-[1px] w-12 bg-brand-red"></div>
+                    <p class="text-xs font-bold uppercase tracking-[0.2em] text-brand-red">Philosophy</p>
+                </div>
+                <h2 class="font-serif text-4xl md:text-6xl text-brand-black mb-8 leading-[1.1]">Nghệ thuật của<br><span class="italic text-brand-red">Sự riêng tư.</span></h2>
+                <div class="space-y-6 text-brand-brown font-medium leading-relaxed text-base md:text-lg">
+                    <p>Khác biệt với những mô hình lưu trú truyền thống, Unite Staycation được kiến tạo để trở thành một "nơi ẩn náu" thực thụ giữa lòng Sài Gòn.</p>
+                    <p>Từ việc điều hướng ánh sáng gián tiếp tạo khối mờ ảo, chất liệu nhung nỉ êm ái xoa dịu xúc giác, cho đến những mùi hương signature... mọi chi tiết đều được chúng tôi sắp đặt có chủ ý.</p>
+                    <p class="font-serif italic text-xl text-brand-black border-l-2 border-brand-red pl-4 py-2 mt-4">"Mỗi kỳ nghỉ đều xứng đáng được nâng niu, và mỗi khoảnh khắc đều là một tác phẩm nghệ thuật."</p>
+                </div>
+            </div>
+
+            <div class="lg:col-span-7 relative reveal reveal-delay-1 mt-10 lg:mt-0">
+                <!-- Hình ảnh lớn -->
+                <div class="aspect-[4/5] md:aspect-[16/10] w-full lg:w-[90%] ml-auto overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?q=80&w=1200&auto=format&fit=crop" alt="Luxury Interior" class="w-full h-full object-cover hover:scale-105 transition-transform duration-1000">
+                </div>
+                <!-- Hình ảnh nhỏ đè lên (Chỉ hiện trên desktop/tablet lớn) -->
+                <div class="hidden md:block absolute -bottom-12 left-0 w-64 aspect-square border-8 border-brand-cream overflow-hidden shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1585553616435-2dc0a54e271d?q=80&w=600&auto=format&fit=crop" alt="Wine Details" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="vibe" class="py-20 bg-brand-black text-brand-cream border-t-4 border-brand-red">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <h2 class="font-serif text-4xl md:text-5xl mb-4">The <span class="italic text-brand-red">Vibe</span></h2>
+                <p class="text-xs font-medium uppercase tracking-[0.2em] text-brand-grey/60">Cảm nhận không gian qua từng chi tiết</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                <div class="aspect-[3/4] overflow-hidden reveal">
+                    <img src="https://images.unsplash.com/photo-1507652313519-d4e9174996dd?q=80&w=600&auto=format&fit=crop" alt="Bathtub" class="w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-110 transition duration-700">
+                </div>
+                <div class="aspect-[3/4] overflow-hidden md:mt-12 reveal reveal-delay-1">
+                    <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=600&auto=format&fit=crop" alt="Premium Bedding" class="w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-110 transition duration-700">
+                </div>
+                <div class="aspect-[3/4] overflow-hidden reveal reveal-delay-2">
+                    <img src="https://images.unsplash.com/photo-1542840410-3092f99611a3?q=80&w=600&auto=format&fit=crop" alt="Mood Lighting" class="w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-110 transition duration-700">
+                </div>
+                <div class="aspect-[3/4] overflow-hidden md:mt-12 reveal reveal-delay-3">
+                    <img src="https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?q=80&w=600&auto=format&fit=crop" alt="Coffee Detail" class="w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-110 transition duration-700">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-brand-black text-brand-cream border-t border-white/10">
+        <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-16">
+            <div class="reveal">
+                <h2 class="font-serif text-4xl md:text-5xl mb-6">Signature<br><span class="italic text-brand-red">Amenities</span></h2>
+                <p class="text-brand-grey/80 leading-relaxed font-light mb-8">Những tiện ích được thiết kế đo ni đóng giày để phục vụ cho một kỳ nghỉ riêng tư trọn vẹn nhất.</p>
+                <a href="#suites" class="inline-flex items-center gap-3 text-sm font-bold uppercase tracking-widest hover:text-brand-red transition-colors group">
+                    Khám phá phòng <i class="fa-solid fa-arrow-right-long group-hover:translate-x-2 transition-transform"></i>
+                </a>
+            </div>
+
+            <div class="flex flex-col">
+                <div class="amenity-line py-6 flex items-start gap-6 amenity-item reveal">
+                    <span class="font-serif text-3xl text-brand-red italic opacity-60">01</span>
+                    <div>
+                        <h3 class="font-sans text-xl font-bold uppercase tracking-widest mb-2">Premium Bedding</h3>
+                        <p class="text-brand-grey/70 text-sm font-light leading-relaxed">Hệ nệm cao cấp kết hợp drap cotton lụa mềm mại, ôm ấp mọi giác quan.</p>
+                    </div>
+                </div>
+                <div class="amenity-line py-6 flex items-start gap-6 amenity-item reveal">
+                    <span class="font-serif text-3xl text-brand-red italic opacity-60">02</span>
+                    <div>
+                        <h3 class="font-sans text-xl font-bold uppercase tracking-widest mb-2">Mood Lighting</h3>
+                        <p class="text-brand-grey/70 text-sm font-light leading-relaxed">Ánh sáng hắt gián tiếp, có thể điều chỉnh tone màu lãng mạn theo ý thích.</p>
+                    </div>
+                </div>
+                <div class="amenity-line py-6 flex items-start gap-6 amenity-item reveal">
+                    <span class="font-serif text-3xl text-brand-red italic opacity-60">03</span>
+                    <div>
+                        <h3 class="font-sans text-xl font-bold uppercase tracking-widest mb-2">Bathtub Chill</h3>
+                        <p class="text-brand-grey/70 text-sm font-light leading-relaxed">Bồn tắm thư giãn nghệ thuật được trang bị tại hệ phòng Élan, Velvet và The Art.</p>
+                    </div>
+                </div>
+                <div class="amenity-line py-6 border-b border-white/10 flex items-start gap-6 amenity-item reveal">
+                    <span class="font-serif text-3xl text-brand-red italic opacity-60">04</span>
+                    <div>
+                        <h3 class="font-sans text-xl font-bold uppercase tracking-widest mb-2">Private Access</h3>
+                        <p class="text-brand-grey/70 text-sm font-light leading-relaxed">Quy trình self check-in thông minh, lối đi riêng tư biệt lập, không làm phiền.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="suites" class="py-24 max-w-7xl mx-auto px-4 md:px-8 bg-brand-cream relative z-10">
+        <div class="text-center mb-16 reveal">
+            <p class="flex items-center justify-center gap-4 mb-4">
+                <span class="h-[1px] w-8 bg-brand-red"></span>
+                <span class="text-xs font-bold uppercase tracking-[0.2em] text-brand-red">Reservation</span>
+                <span class="h-[1px] w-8 bg-brand-red"></span>
+            </p>
+            <h2 class="font-serif text-4xl md:text-6xl text-brand-black mb-4">The <span class="italic text-brand-red">Collection</span></h2>
+            <p class="text-brand-brown font-medium max-w-xl mx-auto">Chọn cho mình một không gian phù hợp nhất. Bảng giá được niêm yết rõ ràng, minh bạch.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10" id="rooms-container">
+            <!-- Render bằng JS -->
+        </div>
+    </section>
+    
+    <section class="py-24 bg-brand-red text-center px-6 relative overflow-hidden">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[300px] text-white/5 leading-none font-serif opacity-50 select-none pointer-events-none">"</div>
+        <div class="max-w-4xl mx-auto relative z-10 reveal">
+            <div class="flex justify-center mb-6 text-brand-cream opacity-80 text-sm gap-1">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            </div>
+            <p class="font-serif text-2xl md:text-4xl text-brand-cream italic leading-relaxed mb-8">"Một không gian tuyệt vời để chạy trốn khỏi những ồn ào của Sài Gòn. Mọi thứ từ mùi hương đến ánh sáng đều hoàn hảo cho một buổi tối lãng mạn."</p>
+            <p class="font-sans text-xs uppercase tracking-[0.3em] text-white/80 font-bold border-t border-white/20 pt-6 inline-block">— Guest Review, Noir Layout</p>
+        </div>
+    </section>
+
+    <section id="faq" class="py-24 bg-white">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <h2 class="font-serif text-3xl md:text-5xl text-brand-black mb-4">Good to <span class="italic text-brand-red">Know</span></h2>
+                <p class="text-xs font-medium uppercase tracking-[0.2em] text-brand-brown">Những điều cần lưu ý trước khi đặt phòng</p>
+            </div>
+
+            <div class="space-y-4">
+                <!-- FAQ Item 1 -->
+                <div class="faq-item border border-brand-grey/50 bg-brand-cream/30 rounded-none overflow-hidden reveal">
+                    <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center bg-transparent focus:outline-none">
+                        <span class="font-sans font-bold text-brand-black text-lg">Giờ Check-in và Check-out như thế nào?</span>
+                        <i class="fa-solid fa-plus faq-icon text-brand-red"></i>
+                    </button>
+                    <div class="faq-answer px-6">
+                        <p class="text-brand-brown leading-relaxed pb-4">Thời gian nhận phòng tiêu chuẩn đối với block qua đêm/theo ngày là từ 14:00. Thời gian trả phòng là 12:00 trưa hôm sau. Đối với block tính theo giờ, thời gian sẽ được tính từ lúc bạn nhận mã cửa vào phòng.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="faq-item border border-brand-grey/50 bg-brand-cream/30 rounded-none overflow-hidden reveal reveal-delay-1">
+                    <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center bg-transparent focus:outline-none">
+                        <span class="font-sans font-bold text-brand-black text-lg">Cách thức bảo mật và riêng tư?</span>
+                        <i class="fa-solid fa-plus faq-icon text-brand-red"></i>
+                    </button>
+                    <div class="faq-answer px-6">
+                        <p class="text-brand-brown leading-relaxed pb-4">Unite áp dụng hình thức "Self Check-in" (Nhận phòng tự động). Khách hàng sẽ nhận được mã khóa cửa thông minh gửi qua Zalo trước giờ nhận phòng, không cần qua lễ tân, đảm bảo sự riêng tư tuyệt đối.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="faq-item border border-brand-grey/50 bg-brand-cream/30 rounded-none overflow-hidden reveal reveal-delay-2">
+                    <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center bg-transparent focus:outline-none">
+                        <span class="font-sans font-bold text-brand-black text-lg">Có áp dụng phụ thu lễ/tết hay cuối tuần không?</span>
+                        <i class="fa-solid fa-plus faq-icon text-brand-red"></i>
+                    </button>
+                    <div class="faq-answer px-6">
+                        <p class="text-brand-brown leading-relaxed pb-4">Bảng giá hiển thị trên website là giá tiêu chuẩn áp dụng cho các ngày thường trong tuần. Vào dịp Lễ/Tết hoặc Thứ 7, Chủ Nhật, giá có thể điều chỉnh nhẹ. Vui lòng liên hệ trực tiếp Hotline/Zalo để được báo giá chính xác nhất tại thời điểm đặt.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="compare" class="py-24 bg-brand-cream border-t border-brand-grey/30">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="text-center mb-12 reveal">
+                <h2 class="font-serif text-3xl md:text-4xl text-brand-black mb-2">Price <span class="italic text-brand-red">Comparison</span></h2>
+                <p class="text-xs font-medium uppercase tracking-[0.2em] text-brand-brown">Bảng tổng hợp nhanh</p>
+            </div>
+
+            <div class="overflow-x-auto reveal bg-white p-6 shadow-xl border border-brand-grey/20">
+                <table class="w-full text-left border-collapse min-w-[600px]">
+                    <thead>
+                        <tr>
+                            <th class="border-b-2 border-brand-red pb-4 font-sans font-bold text-brand-red uppercase tracking-wider text-sm">Hạng Phòng</th>
+                            <th class="border-b-2 border-brand-red pb-4 text-center font-sans font-bold text-brand-red uppercase tracking-wider text-sm">3 Tiếng</th>
+                            <th class="border-b-2 border-brand-red pb-4 text-center font-sans font-bold text-brand-red uppercase tracking-wider text-sm">4 Tiếng</th>
+                            <th class="border-b-2 border-brand-red pb-4 text-center font-sans font-bold text-brand-red uppercase tracking-wider text-sm">8 Tiếng</th>
+                            <th class="border-b-2 border-brand-red pb-4 text-center font-sans font-bold text-brand-red uppercase tracking-wider text-sm">Ngày</th>
+                        </tr>
+                    </thead>
+                    <tbody id="compare-table-body">
+                        <!-- JS Render -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <footer class="pt-24 pb-12 bg-brand-black text-brand-cream text-center relative overflow-hidden">
+        <!-- Logo Invert Filter -->
+        <a href="#" class="inline-block h-16 md:h-20 mb-10 hover:opacity-80 transition duration-300 relative z-10">
+            <img src="https://techbytruong.wordpress.com/wp-content/uploads/2026/06/logo-staycation.png" alt="Unite Staycation Logo" class="h-full w-auto object-contain brightness-0 invert">
+        </a>
+        
+        <h3 class="font-serif text-3xl md:text-4xl text-brand-red italic mb-10 relative z-10">Riêng tư - Thoải mái - Dễ chịu</h3>
+        
+        <div class="flex justify-center gap-6 mb-12 text-xl relative z-10">
+            <a href="#" class="w-12 h-12 flex items-center justify-center rounded-full border border-white/20 hover:border-brand-red hover:bg-brand-red hover:text-white transition duration-300"><i class="fa-solid fa-phone"></i></a>
+            <a href="https://zalo.me/0327771284" class="w-12 h-12 flex items-center justify-center rounded-full border border-white/20 hover:border-brand-red hover:bg-brand-red hover:text-white transition duration-300"><i class="fa-solid fa-comment-dots"></i></a>
+            <a href="#" class="w-12 h-12 flex items-center justify-center rounded-full border border-white/20 hover:border-brand-red hover:bg-brand-red hover:text-white transition duration-300"><i class="fa-brands fa-facebook-f"></i></a>
+        </div>
+
+        <div class="max-w-2xl mx-auto flex flex-col md:flex-row justify-between text-sm text-brand-grey opacity-90 font-light mb-16 px-6 gap-6 relative z-10">
+            <div class="text-left">
+                <p class="font-bold text-white mb-2 uppercase tracking-widest text-xs">Hotline Booking</p>
+                <p>0327 771 284</p>
+                <p>0902 097 755</p>
+            </div>
+            <div class="text-left md:text-right">
+                <p class="font-bold text-white mb-2 uppercase tracking-widest text-xs">Locations</p>
+                <p>29 Nhiêu Tứ, P.7, Phú Nhuận</p>
+                <p>76/39 Phan Tây Hồ, P.7, Phú Nhuận</p>
+            </div>
+        </div>
+        
+        <div class="border-t border-white/10 pt-8 relative z-10">
+            <p class="text-[10px] md:text-xs text-brand-grey/50 tracking-[0.2em] uppercase">© 2026 Unite Staycation. Designed for Privacy.</p>
+        </div>
+
+        <!-- Watermark Background -->
+        <div class="absolute bottom-[-50px] left-1/2 -translate-x-1/2 text-[15vw] font-serif italic text-white/5 whitespace-nowrap pointer-events-none select-none">
+            Unite Staycation
+        </div>
+    </footer>
+
+    <script>
+        // Data config
+        const roomData = [
+            { id: "C1-NOIR", chapter: "Chapter 1", name: "Noir Layout", address: "29 Nhiêu Tứ, P.7", imgCount: 3, fallbackImg: "https://images.unsplash.com/photo-1522771731478-44bf10cb16af?q=80&w=800&auto=format&fit=crop", prices: { "3 Tiếng": "299", "4 Tiếng": "379", "8 Tiếng": "579", "Ngày": "799" } },
+            { id: "C1-ELAN", chapter: "Chapter 1", name: "Élan Layout", address: "29 Nhiêu Tứ, P.7", imgCount: 7, fallbackImg: "https://images.unsplash.com/photo-1560067174-c5a3a8f37060?q=80&w=800&auto=format&fit=crop", prices: { "3 Tiếng": "299", "4 Tiếng": "379", "8 Tiếng": "579", "Ngày": "799" } },
+            { id: "C8-THE-ART", chapter: "Chapter 8", name: "The Art", address: "76/39 Phan Tây Hồ", imgCount: 5, fallbackImg: "https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=800&auto=format&fit=crop", prices: { "3 Tiếng": "299", "4 Tiếng": "379", "8 Tiếng": "579", "Ngày": "759" } },
+            { id: "C9-VELVET", chapter: "Chapter 9", name: "Velvet", address: "76/39 Phan Tây Hồ", imgCount: 4, fallbackImg: "https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?q=80&w=800&auto=format&fit=crop", prices: { "3 Tiếng": "299", "4 Tiếng": "379", "8 Tiếng": "579", "Ngày": "759" } },
+            { id: "C10-MIDNIGHT", chapter: "Chapter 10", name: "Midnight", address: "76/39 Phan Tây Hồ", imgCount: 4, fallbackImg: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=800&auto=format&fit=crop", prices: { "3 Tiếng": "259", "4 Tiếng": "359", "8 Tiếng": "500", "Ngày": "659" } }
+        ];
+
+        function generateSliderHTML(room) {
+            let images = '';
+            let indicators = '';
+            for (let i = 0; i < room.imgCount; i++) {
+                images += `<div class="slide absolute inset-0 ${i === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0'}" data-index="${i}">
+                               <img src="./img/${room.id}/${i}.jpg" onerror="this.src='${room.fallbackImg}'" class="w-full h-full object-cover" alt="${room.name}">
+                           </div>`;
+                indicators += `<button class="indicator-btn w-1.5 h-1.5 rounded-full ${i === 0 ? 'bg-white w-3' : 'bg-white/50'} transition-all shadow-sm" data-index="${i}" aria-label="Slide ${i}"></button>`;
+            }
+            return `
+                <div class="relative w-full aspect-[4/3] bg-brand-grey img-wrapper slider-container group" data-current="0" data-total="${room.imgCount}">
+                    ${images}
+                    <button class="prev-btn absolute left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/80 text-brand-red opacity-0 group-hover:opacity-100 transition shadow-md flex items-center justify-center hover:bg-white" aria-label="Previous"><i class="fa-solid fa-angle-left text-sm"></i></button>
+                    <button class="next-btn absolute right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/80 text-brand-red opacity-0 group-hover:opacity-100 transition shadow-md flex items-center justify-center hover:bg-white" aria-label="Next"><i class="fa-solid fa-angle-right text-sm"></i></button>
+                    <div class="absolute bottom-3 inset-x-0 flex justify-center gap-1.5 z-20 bg-black/20 mx-auto w-max px-3 py-1.5 rounded-full backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity">${indicators}</div>
+                </div>
+            `;
+        }
+
+        function renderRooms() {
+            const container = document.getElementById('rooms-container');
+            let compareHTML = '';
+
+            roomData.forEach((room, index) => {
+                // Thêm class reveal cho animation
+                const delayClass = `reveal-delay-${index % 3}`; 
+                const card = document.createElement('article');
+                card.className = `room-card flex flex-col reveal ${delayClass}`;
+                
+                let priceHTML = '';
+                for (const [time, price] of Object.entries(room.prices)) {
+                    priceHTML += `
+                        <div class="price-row">
+                            <span class="price-label">${time}</span>
+                            <div class="price-leader"></div>
+                            <span class="price-value">${price}k</span>
+                        </div>
+                    `;
+                }
+
+                card.innerHTML = `
+                    ${generateSliderHTML(room)}
+                    <div class="p-6 md:p-8 flex flex-col flex-grow relative bg-white">
+                        <div class="absolute -top-4 right-6 bg-brand-black text-brand-cream px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest z-20 shadow-lg flex items-center gap-2">
+                            <i class="fa-solid fa-location-dot text-brand-red"></i>${room.address}
+                        </div>
+                    
+                        <div class="mb-6 text-left border-b border-brand-grey/30 pb-4">
+                            <h3 class="font-serif text-3xl md:text-4xl text-brand-red mb-1">${room.chapter}</h3>
+                            <p class="font-sans text-xs font-bold uppercase tracking-[0.2em] text-brand-brown">${room.name}</p>
+                        </div>
+                        
+                        <div class="mb-8 flex-grow px-2">
+                            ${priceHTML}
+                        </div>
+
+                        <a href="https://zalo.me/0327771284" target="_blank" class="btn-outline w-full py-3.5 text-center text-xs font-bold uppercase tracking-[0.2em] flex justify-center items-center gap-2">
+                            Booking Now <i class="fa-solid fa-arrow-right text-sm"></i>
+                        </a>
+                    </div>
+                `;
+                container.appendChild(card);
+
+                compareHTML += `
+                    <tr>
+                        <td class="py-4 border-b border-brand-grey/20">
+                            <div class="font-serif text-brand-red text-xl md:text-2xl italic">${room.chapter}</div>
+                            <div class="font-sans text-[10px] text-brand-brown uppercase tracking-wider font-bold mt-1">${room.name}</div>
+                        </td>
+                        <td class="text-center py-4 border-b border-brand-grey/20 text-brand-black font-semibold">${room.prices['3 Tiếng']}k</td>
+                        <td class="text-center py-4 border-b border-brand-grey/20 text-brand-black font-semibold">${room.prices['4 Tiếng']}k</td>
+                        <td class="text-center py-4 border-b border-brand-grey/20 text-brand-black font-semibold">${room.prices['8 Tiếng']}k</td>
+                        <td class="text-center py-4 border-b border-brand-grey/20 font-bold text-brand-red text-lg">${room.prices['Ngày']}k</td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById('compare-table-body').innerHTML = compareHTML;
+            initSliders();
+        }
+
+        function initSliders() {
+            document.querySelectorAll('.slider-container').forEach(slider => {
+                const slides = slider.querySelectorAll('.slide');
+                const indicators = slider.querySelectorAll('.indicator-btn');
+                const total = parseInt(slider.dataset.total);
+                
+                function update(newIndex) {
+                    const current = parseInt(slider.dataset.current);
+                    slides[current].classList.replace('opacity-100', 'opacity-0');
+                    slides[current].classList.replace('z-10', 'z-0');
+                    indicators[current].classList.replace('bg-white', 'bg-white/50');
+                    indicators[current].classList.replace('w-3', 'w-1.5');
+                    
+                    slides[newIndex].classList.replace('opacity-0', 'opacity-100');
+                    slides[newIndex].classList.replace('z-0', 'z-10');
+                    indicators[newIndex].classList.replace('bg-white/50', 'bg-white');
+                    indicators[newIndex].classList.replace('w-1.5', 'w-3');
+                    slider.dataset.current = newIndex;
+                }
+
+                slider.querySelector('.prev-btn').onclick = () => update((parseInt(slider.dataset.current) - 1 + total) % total);
+                slider.querySelector('.next-btn').onclick = () => update((parseInt(slider.dataset.current) + 1) % total);
+                indicators.forEach((ind, i) => ind.onclick = () => update(i));
+            });
+        }
+
+        // --- Scroll Reveal Logic using Intersection Observer ---
+        function initScrollReveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -100px 0px', // Trigger hơi sớm một chút trước khi cuộn tới bottom
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Nếu muốn chỉ chạy 1 lần thì unobserve
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, observerOptions);
+
+            reveals.forEach(reveal => {
+                observer.observe(reveal);
+            });
+        }
+
+        // --- FAQ Accordion Logic ---
+        function initFAQ() {
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const btn = item.querySelector('.faq-btn');
+                btn.addEventListener('click', () => {
+                    // Close others
+                    faqItems.forEach(otherItem => {
+                        if(otherItem !== item && otherItem.classList.contains('active')) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    // Toggle current
+                    item.classList.toggle('active');
+                });
+            });
+        }
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-md');
+                nav.classList.replace('py-4', 'py-2');
+            } else {
+                nav.classList.remove('shadow-md');
+                nav.classList.replace('py-2', 'py-4');
+            }
+        });
+
+        // Init everything
+        document.addEventListener('DOMContentLoaded', () => {
+            renderRooms();
+            initScrollReveal();
+            initFAQ();
+        });
+    </script>
+</body>
+</html>
