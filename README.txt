@@ -60,3 +60,25 @@ V2.6 update:
 V2.6.1 update:
 - Đã bỏ hiệu ứng lóe sáng / ánh sáng quét qua trên 3 khung ảnh hero.
 - Giữ nguyên bố cục cinematic, ảnh chồng, Room Reel, mobile polish và các chỉnh sửa V2.6.
+
+
+V2.6.2 update:
+- Sửa mạnh giao diện trang chi tiết từng phòng trên điện thoại.
+- Ép detail page về 1 cột hoàn toàn trên mobile, không còn ảnh và nội dung nằm ngang gây tràn màn hình.
+- Header mobile được giới hạn chiều rộng, không bị nút 'Trang chính' tràn ra ngoài.
+- Gallery mobile 2 cột, ảnh đầu rộng hơn, dễ xem trên iPhone/Android.
+- Tối ưu padding, cỡ chữ, chip giá và CTA nổi cho màn nhỏ.
+
+
+V2.6.3 update:
+- Tối ưu riêng hero trên điện thoại theo hướng clean luxury.
+- Ẩn 3 khung ảnh chồng ở hero mobile vì gây rối và kém sang trên màn nhỏ.
+- Ẩn ticker trên mobile, kéo Room Reel lên gần hero để khách thấy phòng ngay.
+- Giảm kích thước logo, title, chip giá trị và nút CTA trên mobile.
+- Desktop vẫn giữ bố cục cinematic như bản trước.
+
+
+V2.6.4 update:
+- Sửa lại gesture Room Reel: vuốt dọc sẽ cuộn trang bình thường; chỉ khi vuốt ngang rõ ràng thì Reel mới kéo ngang.
+- Sửa mạnh trang chi tiết phòng trên điện thoại bằng rule max-width 1024 + pointer coarse: ép 1 cột hoàn toàn, chống tràn ngang.
+- Gia cố header mobile để không tạo scroll ngang.
