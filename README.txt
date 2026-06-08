@@ -82,3 +82,9 @@ V2.6.4 update:
 - Sửa lại gesture Room Reel: vuốt dọc sẽ cuộn trang bình thường; chỉ khi vuốt ngang rõ ràng thì Reel mới kéo ngang.
 - Sửa mạnh trang chi tiết phòng trên điện thoại bằng rule max-width 1024 + pointer coarse: ép 1 cột hoàn toàn, chống tràn ngang.
 - Gia cố header mobile để không tạo scroll ngang.
+
+
+V2.6.5 update:
+- Sửa lại Room Reel autoplay bằng tốc độ theo thời gian, ổn định hơn trên mobile browser.
+- Vuốt dọc ở Reel sẽ cuộn trang; chỉ vuốt ngang rõ ràng mới kéo Reel.
+- Sửa nút Contact/Trang chính trong header mobile để nằm giữa chiều cao pill.

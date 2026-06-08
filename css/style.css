@@ -3048,3 +3048,782 @@ button {
     animation: none !important;
   }
 }
+
+
+/* ===== V2.6.2 PATCH: mobile room detail must be single-column, no horizontal overflow ===== */
+
+/* Global overflow guard */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden !important;
+}
+
+/* Header safety on small screens */
+@media (max-width: 900px) {
+  .site-header {
+    width: auto !important;
+    max-width: calc(100vw - 16px) !important;
+    left: 8px !important;
+    right: 8px !important;
+    gap: 8px !important;
+    overflow: hidden !important;
+  }
+
+  .brand {
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+  }
+
+  .brand-copy {
+    min-width: 0 !important;
+  }
+
+  .brand strong {
+    max-width: 185px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  .top-nav {
+    flex: 0 0 auto !important;
+  }
+
+  .top-nav a:not(.nav-cta) {
+    display: none !important;
+  }
+
+  .nav-cta {
+    max-width: 88px !important;
+    min-height: 40px !important;
+    padding: 0 12px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    font-size: 12px !important;
+  }
+}
+
+/* Force room detail into a clean mobile bio layout */
+@media (max-width: 900px) {
+  body[data-page="room"] .room-detail-page {
+    width: 100% !important;
+    max-width: 100vw !important;
+    padding: calc(92px + env(safe-area-inset-top)) 14px calc(92px + env(safe-area-inset-bottom)) !important;
+    overflow-x: hidden !important;
+  }
+
+  body[data-page="room"] .detail-top {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    align-items: stretch !important;
+  }
+
+  body[data-page="room"] .detail-cover,
+  body[data-page="room"] .detail-info {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  body[data-page="room"] .detail-cover {
+    min-height: 0 !important;
+    height: auto !important;
+    aspect-ratio: 4 / 5 !important;
+    border-radius: 28px !important;
+    clip-path: inset(0 round 28px) !important;
+  }
+
+  body[data-page="room"] .detail-cover img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  body[data-page="room"] .detail-info {
+    min-height: 0 !important;
+    padding: 24px 18px !important;
+    border-radius: 28px !important;
+  }
+
+  body[data-page="room"] .detail-info .eyebrow {
+    margin-bottom: 12px !important;
+    font-size: 10px !important;
+    line-height: 1.45 !important;
+    letter-spacing: 0.16em !important;
+  }
+
+  body[data-page="room"] .detail-info h1 {
+    max-width: 100% !important;
+    margin: 0 !important;
+    font-size: clamp(44px, 13vw, 68px) !important;
+    line-height: 0.9 !important;
+    letter-spacing: -0.055em !important;
+    overflow-wrap: normal !important;
+  }
+
+  body[data-page="room"] .detail-desc {
+    max-width: 100% !important;
+    margin-top: 16px !important;
+    color: rgba(255,255,255,0.78) !important;
+    font-size: 14px !important;
+    line-height: 1.65 !important;
+  }
+
+  body[data-page="room"] .tag-list {
+    gap: 7px !important;
+    margin-top: 14px !important;
+  }
+
+  body[data-page="room"] .tag {
+    padding: 7px 9px !important;
+    font-size: 11px !important;
+  }
+
+  body[data-page="room"] .detail-price-compact {
+    margin-top: 16px !important;
+  }
+
+  body[data-page="room"] .compact-price-line {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+
+  body[data-page="room"] .compact-price-line span {
+    min-width: 0 !important;
+    padding: 11px 10px !important;
+    border-radius: 16px !important;
+    font-size: 25px !important;
+    text-align: left !important;
+  }
+
+  body[data-page="room"] .compact-price-line small {
+    font-size: 9px !important;
+    letter-spacing: 0.08em !important;
+  }
+
+  body[data-page="room"] .address-box {
+    margin-top: 14px !important;
+    padding: 14px !important;
+    border-radius: 18px !important;
+  }
+
+  body[data-page="room"] .detail-actions {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+    margin-top: 16px !important;
+  }
+
+  body[data-page="room"] .detail-actions .btn {
+    width: 100% !important;
+  }
+
+  body[data-page="room"] .detail-body {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-top: 14px !important;
+  }
+
+  body[data-page="room"] .gallery-panel {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 18px !important;
+    border-radius: 28px !important;
+  }
+
+  body[data-page="room"] .gallery-heading {
+    display: flex !important;
+    align-items: end !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    margin-bottom: 14px !important;
+  }
+
+  body[data-page="room"] .gallery-heading h2 {
+    font-size: clamp(38px, 11vw, 54px) !important;
+    line-height: 0.9 !important;
+  }
+
+  body[data-page="room"] .gallery-heading span {
+    flex: 0 0 auto !important;
+    font-size: 10px !important;
+  }
+
+  body[data-page="room"] .gallery-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+
+  body[data-page="room"] .gallery-item {
+    width: 100% !important;
+    border-radius: 16px !important;
+    clip-path: inset(0 round 16px) !important;
+    aspect-ratio: 1 / 1 !important;
+  }
+
+  body[data-page="room"] .gallery-item:first-child {
+    grid-column: span 2 !important;
+    grid-row: auto !important;
+    aspect-ratio: 16 / 10 !important;
+  }
+
+  body[data-page="room"] .detail-note {
+    display: none !important;
+  }
+
+  body[data-page="room"] .floating-book {
+    display: flex !important;
+    width: min(560px, calc(100vw - 24px)) !important;
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 390px) {
+  body[data-page="room"] .room-detail-page {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
+  .brand strong {
+    max-width: 145px !important;
+  }
+
+  .nav-cta {
+    max-width: 70px !important;
+    padding: 0 10px !important;
+  }
+
+  body[data-page="room"] .detail-cover {
+    aspect-ratio: 4 / 5.4 !important;
+  }
+
+  body[data-page="room"] .detail-info {
+    padding: 22px 16px !important;
+  }
+
+  body[data-page="room"] .detail-info h1 {
+    font-size: clamp(40px, 12vw, 58px) !important;
+  }
+
+  body[data-page="room"] .compact-price-line span {
+    font-size: 23px !important;
+  }
+}
+
+
+/* ===== V2.6.3 PATCH: mobile hero clean luxury, remove messy stacked frames on phone ===== */
+
+@media (max-width: 760px) {
+  body[data-page="home"] .hero-cinematic {
+    display: block !important;
+    min-height: auto !important;
+    padding: calc(102px + env(safe-area-inset-top)) 16px 38px !important;
+    background:
+      linear-gradient(180deg, rgba(21, 16, 15, 0.92), rgba(82, 0, 8, 0.90)),
+      url("../img/C8-THE-ART/0.jpg") center/cover !important;
+  }
+
+  body[data-page="home"] .hero-noise {
+    background:
+      radial-gradient(circle at 72% 18%, rgba(255,255,255,0.12), transparent 24%),
+      linear-gradient(to bottom, rgba(0,0,0,0.10), rgba(0,0,0,0.54)) !important;
+  }
+
+  body[data-page="home"] .hero-outline,
+  body[data-page="home"] .hero-stack,
+  body[data-page="home"] .hero-orbit,
+  body[data-page="home"] .hero-ambient,
+  body[data-page="home"] .hero-mood-note,
+  body[data-page="home"] .scroll-cue {
+    display: none !important;
+  }
+
+  body[data-page="home"] .hero-copy {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+
+  body[data-page="home"] .eyebrow {
+    max-width: 320px !important;
+    margin-bottom: 14px !important;
+    font-size: 10px !important;
+    line-height: 1.55 !important;
+    letter-spacing: 0.18em !important;
+  }
+
+  body[data-page="home"] .hero-logo.image-logo {
+    width: 132px !important;
+    margin: 18px 0 22px !important;
+    opacity: 0.96 !important;
+  }
+
+  body[data-page="home"] .hero-copy h1.hero-title {
+    max-width: 330px !important;
+    font-size: clamp(48px, 14vw, 68px) !important;
+    line-height: 0.9 !important;
+    letter-spacing: -0.055em !important;
+  }
+
+  body[data-page="home"] .hero-copy h1.hero-title em {
+    margin-top: -0.04em !important;
+    font-size: 0.76em !important;
+    line-height: 1 !important;
+  }
+
+  body[data-page="home"] .hero-values {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    margin-top: 20px !important;
+    max-width: 100% !important;
+  }
+
+  body[data-page="home"] .hero-values span {
+    min-height: 38px !important;
+    padding: 0 8px !important;
+    justify-content: center !important;
+    border-color: rgba(255,255,255,0.20) !important;
+    background: rgba(255,255,255,0.10) !important;
+    font-size: 9px !important;
+    letter-spacing: 0.10em !important;
+    white-space: nowrap !important;
+  }
+
+  body[data-page="home"] .hero-subtitle {
+    max-width: 100% !important;
+    margin-top: 18px !important;
+    color: rgba(255,255,255,0.78) !important;
+    font-size: 14px !important;
+    line-height: 1.75 !important;
+  }
+
+  body[data-page="home"] .hero-actions {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+    margin-top: 24px !important;
+  }
+
+  body[data-page="home"] .hero-actions .btn {
+    width: 100% !important;
+    min-height: 54px !important;
+  }
+
+  body[data-page="home"] .hero-actions .btn.ghost {
+    background: rgba(255,255,255,0.12) !important;
+  }
+
+  /* Add a clean single featured card instead of 3 stacked frames */
+  body[data-page="home"] .hero-copy::after {
+    content: "Bộ sưu tập phòng được trình bày ngay bên dưới";
+    display: block;
+    margin-top: 18px;
+    padding: 13px 14px;
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 18px;
+    color: rgba(255,255,255,0.72);
+    background: rgba(255,255,255,0.07);
+    backdrop-filter: blur(12px);
+    font-size: 12px;
+    line-height: 1.55;
+    text-align: center;
+  }
+
+  /* Pull Room Reel closer after hero so user sees rooms immediately */
+  body[data-page="home"] .ticker-section {
+    display: none !important;
+  }
+
+  body[data-page="home"] .reel-section {
+    padding-top: 42px !important;
+  }
+
+  body[data-page="home"] .reel-heading {
+    padding-inline: 16px !important;
+    padding-bottom: 10px !important;
+  }
+
+  body[data-page="home"] .reel-heading h2 {
+    max-width: 100% !important;
+    font-size: clamp(40px, 12vw, 56px) !important;
+    line-height: 0.92 !important;
+  }
+
+  body[data-page="home"] .reel-window {
+    padding-top: 18px !important;
+  }
+}
+
+/* Extra compact for very small Android/iPhone widths */
+@media (max-width: 390px) {
+  body[data-page="home"] .hero-cinematic {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  body[data-page="home"] .hero-logo.image-logo {
+    width: 118px !important;
+  }
+
+  body[data-page="home"] .hero-copy h1.hero-title {
+    font-size: clamp(44px, 13.5vw, 60px) !important;
+  }
+
+  body[data-page="home"] .hero-values span {
+    font-size: 8.5px !important;
+    padding: 0 6px !important;
+  }
+}
+
+
+/* ===== V2.6.4 PATCH: phone room detail + intelligent Room Reel gestures ===== */
+
+/* Reel: vertical swipe should scroll page; horizontal swipe is handled by JS */
+.reel-window {
+  touch-action: pan-y !important;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.reel-card {
+  touch-action: pan-y !important;
+}
+
+/* Bulletproof detail page stacking on phones and tablets */
+@media (max-width: 1024px), (pointer: coarse) and (max-width: 1180px) {
+  body[data-page="room"] {
+    overflow-x: hidden !important;
+  }
+
+  body[data-page="room"] .room-detail-page {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    padding: calc(96px + env(safe-area-inset-top)) 14px calc(92px + env(safe-area-inset-bottom)) !important;
+    overflow-x: hidden !important;
+  }
+
+  body[data-page="room"] .detail-top {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  body[data-page="room"] .detail-cover,
+  body[data-page="room"] .detail-info,
+  body[data-page="room"] .detail-body,
+  body[data-page="room"] .gallery-panel,
+  body[data-page="room"] .detail-note {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  body[data-page="room"] .detail-cover {
+    order: 1 !important;
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: 4 / 5 !important;
+    border-radius: 28px !important;
+    overflow: hidden !important;
+    clip-path: inset(0 round 28px) !important;
+  }
+
+  body[data-page="room"] .detail-cover img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  body[data-page="room"] .detail-info {
+    order: 2 !important;
+    display: block !important;
+    min-height: 0 !important;
+    padding: 24px 18px !important;
+    border-radius: 28px !important;
+  }
+
+  body[data-page="room"] .detail-info .eyebrow {
+    margin-bottom: 11px !important;
+    font-size: 10px !important;
+    line-height: 1.45 !important;
+    letter-spacing: 0.14em !important;
+  }
+
+  body[data-page="room"] .detail-info h1 {
+    max-width: 100% !important;
+    margin: 0 !important;
+    font-size: clamp(42px, 12.5vw, 66px) !important;
+    line-height: 0.92 !important;
+    letter-spacing: -0.055em !important;
+    white-space: normal !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+  }
+
+  body[data-page="room"] .detail-desc {
+    max-width: 100% !important;
+    margin-top: 15px !important;
+    font-size: 14px !important;
+    line-height: 1.65 !important;
+  }
+
+  body[data-page="room"] .tag-list {
+    margin-top: 14px !important;
+    gap: 7px !important;
+  }
+
+  body[data-page="room"] .tag {
+    padding: 7px 9px !important;
+    font-size: 11px !important;
+  }
+
+  body[data-page="room"] .detail-price-compact {
+    margin-top: 16px !important;
+  }
+
+  body[data-page="room"] .compact-price-line {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  body[data-page="room"] .compact-price-line span {
+    min-width: 0 !important;
+    padding: 11px 10px !important;
+    border-radius: 16px !important;
+    font-size: 25px !important;
+  }
+
+  body[data-page="room"] .compact-price-line small {
+    font-size: 9px !important;
+    letter-spacing: 0.08em !important;
+  }
+
+  body[data-page="room"] .address-box {
+    margin-top: 14px !important;
+    padding: 14px !important;
+    border-radius: 18px !important;
+  }
+
+  body[data-page="room"] .detail-actions {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+    margin-top: 16px !important;
+  }
+
+  body[data-page="room"] .detail-actions .btn {
+    width: 100% !important;
+  }
+
+  body[data-page="room"] .detail-body {
+    display: block !important;
+    margin-top: 14px !important;
+  }
+
+  body[data-page="room"] .gallery-panel {
+    padding: 18px !important;
+    border-radius: 28px !important;
+  }
+
+  body[data-page="room"] .gallery-heading {
+    display: flex !important;
+    align-items: end !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    margin-bottom: 14px !important;
+  }
+
+  body[data-page="room"] .gallery-heading h2 {
+    font-size: clamp(38px, 11vw, 54px) !important;
+    line-height: 0.9 !important;
+  }
+
+  body[data-page="room"] .gallery-heading span {
+    flex: 0 0 auto !important;
+    font-size: 10px !important;
+  }
+
+  body[data-page="room"] .gallery-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+
+  body[data-page="room"] .gallery-item {
+    width: 100% !important;
+    border-radius: 16px !important;
+    clip-path: inset(0 round 16px) !important;
+    aspect-ratio: 1 / 1 !important;
+  }
+
+  body[data-page="room"] .gallery-item:first-child {
+    grid-column: span 2 !important;
+    grid-row: auto !important;
+    aspect-ratio: 16 / 10 !important;
+  }
+
+  body[data-page="room"] .detail-note {
+    display: none !important;
+  }
+}
+
+/* On mobile browser viewport, ensure header never creates horizontal scroll */
+@media (max-width: 760px) {
+  .site-header {
+    max-width: calc(100vw - 16px) !important;
+    overflow: hidden !important;
+  }
+
+  .brand {
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+  }
+
+  .brand-copy,
+  .brand-copy strong {
+    min-width: 0 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  .brand-copy strong {
+    max-width: 190px !important;
+  }
+
+  .nav-cta {
+    flex: 0 0 auto !important;
+    max-width: 96px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  body[data-page="room"] .floating-book {
+    display: flex !important;
+    width: min(560px, calc(100vw - 24px)) !important;
+  }
+}
+
+@media (max-width: 390px) {
+  body[data-page="room"] .room-detail-page {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
+  body[data-page="room"] .detail-cover {
+    aspect-ratio: 4 / 5.35 !important;
+  }
+
+  body[data-page="room"] .detail-info {
+    padding: 22px 16px !important;
+  }
+
+  body[data-page="room"] .detail-info h1 {
+    font-size: clamp(40px, 12vw, 58px) !important;
+  }
+
+  .brand-copy strong {
+    max-width: 150px !important;
+  }
+}
+
+
+/* ===== V2.6.5 PATCH: Reel autoplay + vertical gesture + centered header CTA ===== */
+
+.reel-window {
+  touch-action: pan-y !important;
+  overscroll-behavior-x: contain !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+.reel-track { will-change: transform; }
+.reel-card { touch-action: pan-y !important; }
+
+.site-header { align-items: center !important; }
+.top-nav { align-items: center !important; align-self: center !important; }
+
+.nav-cta,
+.top-nav .nav-cta {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+@media (max-width: 760px) {
+  .site-header {
+    min-height: 64px !important;
+    padding: 8px 10px !important;
+  }
+
+  .brand { align-items: center !important; }
+
+  .brand-logo {
+    width: 48px !important;
+    height: 48px !important;
+  }
+
+  .brand-copy {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+  }
+
+  .top-nav {
+    height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  .nav-cta,
+  .top-nav .nav-cta {
+    height: 46px !important;
+    min-height: 46px !important;
+    max-width: 108px !important;
+    padding: 0 16px !important;
+    border-radius: 999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: 1 !important;
+    text-align: center !important;
+    transform: translateY(0) !important;
+  }
+
+  body[data-page="home"] .reel-window { touch-action: pan-y !important; }
+  body[data-page="home"] .reel-card { width: min(330px, 78vw) !important; }
+  body[data-page="home"] .reel-track { gap: 18px !important; }
+}
+
+@media (max-width: 390px) {
+  .brand-copy strong { max-width: 156px !important; }
+  .nav-cta,
+  .top-nav .nav-cta {
+    max-width: 92px !important;
+    padding: 0 12px !important;
+  }
+}

@@ -260,60 +260,118 @@ const renderReel = () => {
   const loop = [...rooms, ...rooms, ...rooms, ...rooms];
   track.innerHTML = loop.map(itemHTML).join("");
 
-  let raf;
+  let raf = null;
   let isDown = false;
   let startX = 0;
+  let startY = 0;
   let scrollLeft = 0;
   let isHovered = false;
   let moved = false;
+  let gestureMode = null; // null | "horizontal" | "vertical"
+  let lastTime = performance.now();
+  let resumeTimer = null;
 
-  const loopScroll = () => {
-    const oneSetWidth = track.scrollWidth / 4;
-    if (oneSetWidth > 0) {
-      if (windowEl.scrollLeft >= oneSetWidth * 2.5) windowEl.scrollLeft -= oneSetWidth;
-      if (windowEl.scrollLeft <= 0) windowEl.scrollLeft += oneSetWidth;
+  const getOneSetWidth = () => track.scrollWidth / 4;
+
+  const normalizeScroll = () => {
+    const oneSetWidth = getOneSetWidth();
+    if (oneSetWidth <= 0) return;
+    if (windowEl.scrollLeft >= oneSetWidth * 2.5) windowEl.scrollLeft -= oneSetWidth;
+    if (windowEl.scrollLeft <= oneSetWidth * 0.25) windowEl.scrollLeft += oneSetWidth;
+  };
+
+  const temporarilyPause = (ms = 900) => {
+    isHovered = true;
+    window.clearTimeout(resumeTimer);
+    resumeTimer = window.setTimeout(() => { isHovered = false; }, ms);
+  };
+
+  const loopScroll = (now = performance.now()) => {
+    const dt = Math.min(40, now - lastTime);
+    lastTime = now;
+    normalizeScroll();
+
+    const speed = window.innerWidth < 760 ? 34 : 42;
+    if (!isDown && !isHovered && document.visibilityState === "visible") {
+      windowEl.scrollLeft += (speed * dt) / 1000;
     }
 
-    if (!isDown && !isHovered) windowEl.scrollLeft += window.innerWidth < 760 ? 0.35 : 0.65;
     raf = requestAnimationFrame(loopScroll);
   };
 
-  setTimeout(() => {
-    windowEl.scrollLeft = track.scrollWidth / 4;
-    loopScroll();
-  }, 180);
+  const initPosition = () => {
+    const oneSetWidth = getOneSetWidth();
+    if (oneSetWidth > 0) windowEl.scrollLeft = oneSetWidth;
+    lastTime = performance.now();
+    if (raf) cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(loopScroll);
+  };
 
-  const start = (clientX) => {
+  requestAnimationFrame(() => setTimeout(initPosition, 220));
+  window.addEventListener("resize", () => setTimeout(initPosition, 180));
+
+  const startDrag = (clientX, clientY = 0) => {
     isDown = true;
     moved = false;
+    gestureMode = null;
     startX = clientX;
+    startY = clientY;
     scrollLeft = windowEl.scrollLeft;
     windowEl.classList.add("cursor-grabbing");
   };
 
-  const move = (clientX, event) => {
+  const moveDrag = (clientX, clientY = 0, event) => {
     if (!isDown) return;
-    const diff = clientX - startX;
-    if (Math.abs(diff) > 5) moved = true;
-    windowEl.scrollLeft = scrollLeft - diff * 1.18;
+
+    const dx = clientX - startX;
+    const dy = clientY - startY;
+
+    if (event?.type === "touchmove" && gestureMode === null) {
+      if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+      gestureMode = Math.abs(dx) > Math.abs(dy) * 1.18 ? "horizontal" : "vertical";
+      if (gestureMode === "vertical") {
+        isDown = false;
+        windowEl.classList.remove("cursor-grabbing");
+        return;
+      }
+    }
+
+    if (event?.type === "touchmove" && gestureMode !== "horizontal") return;
+
+    if (Math.abs(dx) > 5) moved = true;
+    windowEl.scrollLeft = scrollLeft - dx * 1.12;
+    normalizeScroll();
     if (event?.cancelable) event.preventDefault();
   };
 
-  const end = () => {
+  const endDrag = () => {
+    if (isDown || gestureMode === "horizontal") temporarilyPause(650);
     isDown = false;
+    gestureMode = null;
     windowEl.classList.remove("cursor-grabbing");
   };
 
-  windowEl.addEventListener("mouseenter", () => isHovered = true);
-  windowEl.addEventListener("mouseleave", () => { isHovered = false; end(); });
+  if (window.matchMedia("(hover: hover)").matches) {
+    windowEl.addEventListener("mouseenter", () => isHovered = true);
+    windowEl.addEventListener("mouseleave", () => { isHovered = false; endDrag(); });
+  }
 
-  windowEl.addEventListener("mousedown", e => start(e.pageX));
-  window.addEventListener("mousemove", e => move(e.pageX, e));
-  window.addEventListener("mouseup", end);
+  windowEl.addEventListener("mousedown", e => startDrag(e.pageX, e.pageY));
+  window.addEventListener("mousemove", e => moveDrag(e.pageX, e.pageY, e));
+  window.addEventListener("mouseup", endDrag);
 
-  windowEl.addEventListener("touchstart", e => start(e.touches[0].pageX), { passive: true });
-  windowEl.addEventListener("touchmove", e => move(e.touches[0].pageX, e), { passive: false });
-  window.addEventListener("touchend", end);
+  windowEl.addEventListener("touchstart", e => {
+    const touch = e.touches[0];
+    startDrag(touch.clientX, touch.clientY);
+  }, { passive: true });
+
+  windowEl.addEventListener("touchmove", e => {
+    const touch = e.touches[0];
+    moveDrag(touch.clientX, touch.clientY, e);
+  }, { passive: false });
+
+  window.addEventListener("touchend", endDrag, { passive: true });
+  window.addEventListener("touchcancel", endDrag, { passive: true });
 
   windowEl.addEventListener("click", e => {
     if (moved) {
@@ -331,20 +389,21 @@ const renderReel = () => {
   $("#reelPrev")?.addEventListener("click", (event) => {
     event.preventDefault();
     event.stopPropagation();
-    isHovered = true;
+    temporarilyPause(900);
     windowEl.scrollBy({ left: -scrollAmount(), behavior: "smooth" });
-    window.setTimeout(() => { isHovered = false; }, 900);
   });
 
   $("#reelNext")?.addEventListener("click", (event) => {
     event.preventDefault();
     event.stopPropagation();
-    isHovered = true;
+    temporarilyPause(900);
     windowEl.scrollBy({ left: scrollAmount(), behavior: "smooth" });
-    window.setTimeout(() => { isHovered = false; }, 900);
   });
 
-  window.addEventListener("beforeunload", () => cancelAnimationFrame(raf));
+  window.addEventListener("beforeunload", () => {
+    if (raf) cancelAnimationFrame(raf);
+    window.clearTimeout(resumeTimer);
+  });
 };
 
 const renderRules = () => {
