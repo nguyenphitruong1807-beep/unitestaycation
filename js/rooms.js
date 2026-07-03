@@ -15,6 +15,9 @@ const rooms = [
     district: "Phú Nhuận",
     address: "29 Nhiêu Tứ, phường 7, quận Phú Nhuận",
     priceTier: "premium",
+    inventory: 1,
+    status: "available",
+    category: "Couple bathtub",
     vibe: "Chill boutique · bồn tắm · cửa kính thoáng",
     shortLine: "A private bathtub studio with quiet city light.",
     description: "Studio mang cảm giác riêng tư, hiện đại và có điểm nhấn bồn tắm. Phù hợp cho staycation couple, nghỉ ngắn ngày hoặc chụp hình lifestyle.",
@@ -25,6 +28,7 @@ const rooms = [
       { label: "Ngày", value: "799k" }
     ],
     tags: ["Studio", "Bồn tắm", "View thoáng", "Couple"],
+    amenities: ["wifi", "aircon", "bathtub", "tv", "self-checkin", "support"],
     filters: ["29 Nhiêu Tứ", "Phú Nhuận", "bathtub"],
     images: makeImages("C1-ELAN", 7)
   },
@@ -37,6 +41,9 @@ const rooms = [
     district: "Phú Nhuận",
     address: "29 Nhiêu Tứ, phường 7, quận Phú Nhuận",
     priceTier: "premium",
+    inventory: 1,
+    status: "available",
+    category: "Private cinema",
     vibe: "Dark modern · riêng tư · cá tính",
     shortLine: "Dark, intimate and quietly luxurious.",
     description: "Không gian tone tối sang, nội thất hiện đại và riêng tư. Phù hợp cho khách thích vibe noir, trầm, gọn và có gu.",
@@ -47,6 +54,7 @@ const rooms = [
       { label: "Ngày", value: "799k" }
     ],
     tags: ["Studio", "Tone tối", "TV", "Private"],
+    amenities: ["wifi", "aircon", "tv", "self-checkin", "support"],
     filters: ["29 Nhiêu Tứ", "Phú Nhuận"],
     images: makeImages("C1-NOIR", 3)
   },
@@ -59,6 +67,9 @@ const rooms = [
     district: "Phú Nhuận",
     address: "76/39 Phan Tây Hồ, phường Cầu Kiệu, Phú Nhuận",
     priceTier: "signature",
+    inventory: 1,
+    status: "available",
+    category: "Signature bathtub",
     vibe: "Signature studio · cửa vòm · bồn tắm",
     shortLine: "A signature room with artful curves and bath light.",
     description: "Một layout có tính thẩm mỹ cao, nổi bật với bồn tắm rời, cửa vòm và ánh sáng đẹp. Phù hợp định vị như phòng signature của hệ thống.",
@@ -69,6 +80,7 @@ const rooms = [
       { label: "Ngày", value: "759k" }
     ],
     tags: ["Studio", "Bồn tắm", "Signature", "Cửa vòm"],
+    amenities: ["wifi", "aircon", "bathtub", "tv", "self-checkin", "support", "photo-corner"],
     filters: ["76/39 Phan Tây Hồ", "Phú Nhuận", "bathtub", "signature"],
     images: makeImages("C8-THE-ART", 5)
   },
@@ -81,6 +93,9 @@ const rooms = [
     district: "Phú Nhuận",
     address: "76/39 Phan Tây Hồ, phường Cầu Kiệu, Phú Nhuận",
     priceTier: "premium",
+    inventory: 1,
+    status: "available",
+    category: "Warm studio",
     vibe: "Warm luxury · cozy · private stay",
     shortLine: "Warm, soft, modern and deeply private.",
     description: "Không gian ấm, mềm và hiện đại, phù hợp cho khách muốn một căn phòng riêng tư, dễ chịu nhưng vẫn có cảm giác cao cấp.",
@@ -91,6 +106,7 @@ const rooms = [
       { label: "Ngày", value: "759k" }
     ],
     tags: ["Studio", "Ấm sang", "TV", "Private"],
+    amenities: ["wifi", "aircon", "tv", "self-checkin", "support", "photo-corner"],
     filters: ["76/39 Phan Tây Hồ", "Phú Nhuận"],
     images: makeImages("C9-VELVET", 4)
   },
@@ -103,6 +119,9 @@ const rooms = [
     district: "Phú Nhuận",
     address: "76/39 Phan Tây Hồ, phường Cầu Kiệu, Phú Nhuận",
     priceTier: "budget",
+    inventory: 1,
+    status: "available",
+    category: "Budget studio",
     vibe: "Compact · giá tốt · tối giản",
     shortLine: "Compact, clean and easy to book.",
     description: "Studio nhỏ gọn, tối giản và dễ tiếp cận hơn về giá. Phù hợp khách cần một không gian riêng tư, sạch đẹp, tiện lợi.",
@@ -113,6 +132,7 @@ const rooms = [
       { label: "Ngày", value: "659k" }
     ],
     tags: ["Studio", "Giá tốt", "Compact", "Private"],
+    amenities: ["wifi", "aircon", "tv", "self-checkin", "support"],
     filters: ["76/39 Phan Tây Hồ", "Phú Nhuận", "budget"],
     images: makeImages("C10-MIDNIGHT", 4)
   }

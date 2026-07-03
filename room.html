@@ -6,13 +6,14 @@
   <title>Room Detail | Unite Staycation</title>
   <meta name="description" content="Chi tiết layout, hình ảnh và bảng giá phòng Unite Staycation." />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/custom.css?v=smart-dock-v89" />
 </head>
 <body data-page="room">
   <div class="page-progress" id="pageProgress"></div>
 
   <header class="site-header" id="siteHeader">
     <a class="brand" href="index.html" aria-label="Unite Staycation">
-      <span class="brand-logo"><img src="https://techbytruong.wordpress.com/wp-content/uploads/2026/06/logo-staycation.png" alt="Unite Staycation logo"></span>
+      <span class="brand-logo"><img src="logo/logo.png" alt="Unite Staycation logo"></span>
       <span class="brand-copy">
         <strong>Unite Staycation</strong>
         <small>Room detail</small>
@@ -24,8 +25,23 @@
       <a href="index.html#homes">Homes</a>
       <a href="index.html#priceList">Bảng giá</a>
       <a href="index.html#rules">Nội quy</a>
-      <a class="nav-cta" href="index.html">Trang chính</a>
+      <a href="admin.html">Quản trị</a>
+      <a class="nav-cta" href="rooms.html">Đặt phòng</a>
     </nav>
+
+    <div class="header-tools" aria-label="Công cụ nhanh">
+      <button class="tool-icon" type="button" aria-label="Liên hệ nhanh">☎</button>
+      <div class="language-switcher" id="languageSwitcher">
+        <button class="language-current" type="button" id="languageToggle" aria-expanded="false">
+          <span>●</span><strong>VIE</strong>
+        </button>
+        <div class="language-menu" id="languageMenu" aria-label="Chọn ngôn ngữ">
+          <button type="button" data-lang="ENG"><span>●</span> ENG</button>
+          <button type="button" data-lang="VIE" class="active"><span>●</span> VIE</button>
+          <button type="button" data-lang="CHN"><span>●</span> CHN</button>
+        </div>
+      </div>
+    </div>
   </header>
 
   <main id="roomDetail" class="room-detail-page"></main>
@@ -34,7 +50,8 @@
     <p>© Unite Staycation · Riêng tư - Thoải mái - Dễ chịu</p>
   </footer>
 
-  <script src="js/rooms.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/rooms.js?v=smart-dock-v89"></script>
+  <script src="js/app.js?v=smart-dock-v89"></script>
+  <script src="js/luxury-effects.js"></script>
 </body>
 </html>

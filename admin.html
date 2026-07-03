@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Quản trị | Unite Staycation</title>
+  <meta name="description" content="Hub quản trị nội dung, hình ảnh, bảng giá và luồng đặt phòng của Unite Staycation." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/custom.css?v=smart-dock-v89" />
+</head>
+<body data-page="admin">
+  <div class="page-progress" id="pageProgress"></div>
+
+  <header class="site-header" id="siteHeader">
+    <a class="brand" href="index.html" aria-label="Unite Staycation">
+      <span class="brand-logo"><img src="logo/logo.png" alt="Unite Staycation logo"></span>
+      <span class="brand-copy">
+        <strong>Unite Staycation</strong>
+        <small>Admin hub</small>
+      </span>
+    </a>
+
+    <nav class="top-nav">
+      <a href="index.html#roomReel">Phòng</a>
+      <a href="index.html#priceList">Bảng giá</a>
+      <a href="index.html#rules">Nội quy</a>
+      <a href="index.html#contact">Liên hệ</a>
+      <a class="nav-cta" href="index.html">Trang chính</a>
+    </nav>
+
+    <div class="header-tools" aria-label="Công cụ nhanh">
+      <button class="tool-icon" type="button" aria-label="Liên hệ nhanh">☎</button>
+      <div class="language-switcher" id="languageSwitcher">
+        <button class="language-current" type="button" id="languageToggle" aria-expanded="false">
+          <span>●</span><strong>VIE</strong>
+        </button>
+        <div class="language-menu" id="languageMenu" aria-label="Chọn ngôn ngữ">
+          <button type="button" data-lang="ENG"><span>●</span> ENG</button>
+          <button type="button" data-lang="VIE" class="active"><span>●</span> VIE</button>
+          <button type="button" data-lang="CHN"><span>●</span> CHN</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="admin-page">
+    <section class="admin-hero">
+      <div class="reveal-up">
+        <p class="section-kicker">Admin operations</p>
+        <h1>Quản trị gọn, rõ, không làm mất chất boutique.</h1>
+        <p>
+          Trang này là hub vận hành tĩnh để team dễ biết cần cập nhật ở đâu: dữ liệu phòng, ảnh, logo, bảng giá, liên hệ và kênh đặt phòng.
+        </p>
+      </div>
+
+      <aside class="admin-status reveal-up">
+        <strong>Cần chú ý</strong>
+        <ul>
+          <li>Logo hiện dùng <b>logo/logo.png</b>.</li>
+          <li>Dữ liệu phòng và giá nằm trong <b>js/rooms.js</b>.</li>
+          <li>Link social/Zalo thật chưa được gắn, nên không để nút trỏ ra link rỗng.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <div id="adminBookingMount" class="admin-booking-mount"></div>
+
+    <section class="admin-console reveal-up" aria-label="Quản lý phòng và tiện ích">
+      <div class="admin-console-head">
+        <div>
+          <p class="section-kicker">Room inventory</p>
+          <h2>Quản lý số lượng, dạng phòng và tiện ích hiển thị.</h2>
+        </div>
+        <button class="btn soft small" type="button" id="adminResetOverrides">Khôi phục mặc định</button>
+      </div>
+
+      <div id="adminMetrics" class="admin-metrics" aria-label="Tổng quan dữ liệu phòng"></div>
+      <p id="adminSaveState" class="admin-save-state">Dữ liệu mặc định đang đọc từ js/rooms.js. Khi chỉnh, thay đổi sẽ lưu trong trình duyệt này.</p>
+
+      <div id="adminRoomManager" class="admin-room-manager"></div>
+    </section>
+
+    <section class="admin-console admin-amenity-console reveal-up" aria-label="Danh mục tiện ích">
+      <div class="admin-console-head">
+        <div>
+          <p class="section-kicker">Amenity icons</p>
+          <h2>Bộ tiện ích chuẩn đang đồng bộ ra web chính.</h2>
+        </div>
+        <a class="btn soft small" href="rooms.html">Xem trang chọn phòng</a>
+      </div>
+      <div id="adminAmenityCatalog" class="admin-amenity-catalog"></div>
+    </section>
+
+    <section class="admin-grid" aria-label="Các khu vực quản trị">
+      <article class="admin-card reveal-up">
+        <span>Rooms</span>
+        <h2>Dữ liệu phòng</h2>
+        <p>Sửa tên phòng, mô tả, tag, filter, giá và số lượng ảnh trong file dữ liệu trung tâm.</p>
+        <a class="btn soft small" href="js/rooms.js">Mở rooms.js</a>
+      </article>
+
+      <article class="admin-card reveal-up">
+        <span>Gallery</span>
+        <h2>Kho ảnh</h2>
+        <p>Ảnh đang chia theo thư mục mã phòng. Giữ đúng quy ước 0.jpg, 1.jpg... để gallery tự nhận.</p>
+        <a class="btn soft small" href="img/">Mở thư mục ảnh</a>
+      </article>
+
+      <article class="admin-card reveal-up">
+        <span>Pricing</span>
+        <h2>Bảng giá</h2>
+        <p>Kiểm tra luồng khách thấy giá: filter theo địa điểm, bồn tắm, signature và giá tốt.</p>
+        <a class="btn soft small" href="index.html#priceList">Xem bảng giá</a>
+      </article>
+
+      <article class="admin-card reveal-up">
+        <span>Booking</span>
+        <h2>Google Sheet</h2>
+        <p>Nên gắn link Sheet/Apps Script thật tại đây khi team chốt lại endpoint quản trị đang dùng.</p>
+        <button class="disabled-action" type="button" disabled>Chờ gắn link thật</button>
+      </article>
+
+      <article class="admin-card reveal-up">
+        <span>Brand</span>
+        <h2>Logo</h2>
+        <p>Logo mới đã được đồng bộ vào header, hero, nội quy và hiệu ứng nền cuộn trang.</p>
+        <a class="btn soft small" href="logo/logo.png">Xem logo</a>
+      </article>
+
+      <article class="admin-card reveal-up">
+        <span>Contact</span>
+        <h2>Liên hệ</h2>
+        <p>Khi có Zalo, Facebook, Instagram hoặc hotline thật, thay các link nội bộ bằng link vận hành chính thức.</p>
+        <a class="btn soft small" href="index.html#contact">Xem contact</a>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <p>© Unite Staycation · Admin hub</p>
+      <nav class="footer-links" aria-label="Footer links">
+        <a href="index.html">Trang chính</a>
+        <a href="index.html#priceList">Bảng giá</a>
+        <a href="index.html#rules">Nội quy</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="js/rooms.js?v=smart-dock-v89"></script>
+  <script src="js/app.js?v=smart-dock-v89"></script>
+  <script src="js/luxury-effects.js"></script>
+</body>
+</html>
